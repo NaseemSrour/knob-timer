@@ -1,0 +1,36 @@
+# --- Virtual environment ---
+venv/
+.venv/
+env/
+
+# --- Python bytecode / caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.pytest_cache/
+
+# --- PyInstaller build output ---
+build/
+dist/
+*.spec
+*.manifest
+
+# --- App runtime files (generated / machine-specific) ---
+# config.json is created automatically on first run and stores local paths.
+config.json
+
+# NOTE: memory/ (agent decision history) and asset files (alarm.mp3, etc.) are
+# intentionally NOT ignored -- they are versioned with the project so any clone
+# can rebuild with assets present and understand past design decisions.
+
+# --- Editor / OS clutter ---
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- Logs ---
+*.log

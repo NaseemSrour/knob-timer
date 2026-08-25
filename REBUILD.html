@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knob Timer — Rebuild &amp; Alarm Guide</title>
+<style>
+  :root { --bg:#2E2E2E; --card:#3a3a3a; --green:#2ECC71; --orange:#E67E22; --ink:#f5f5f5; --muted:#b8b8b8; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; padding:40px 16px; background:var(--bg); color:var(--ink);
+    font-family:'Segoe UI', system-ui, -apple-system, sans-serif; line-height:1.6;
+    display:flex; justify-content:center;
+  }
+  .wrap { width:100%; max-width:680px; }
+  h1 { font-size:1.9rem; margin:0 0 4px; }
+  h1 .knob { color:var(--green); }
+  .sub { color:var(--muted); margin:0 0 28px; }
+  section {
+    background:var(--card); border-radius:14px; padding:22px 24px; margin-bottom:20px;
+    border-left:5px solid var(--green); box-shadow:0 4px 14px rgba(0,0,0,.25);
+  }
+  section.alarm { border-left-color:var(--orange); }
+  h2 { margin:0 0 12px; font-size:1.25rem; display:flex; align-items:center; gap:9px; }
+  ol { margin:0; padding-left:22px; }
+  li { margin:8px 0; }
+  code {
+    background:#1e1e1e; color:#9fe6b6; padding:2px 7px; border-radius:6px;
+    font-family:'Consolas', ui-monospace, monospace; font-size:.92em;
+  }
+  pre {
+    background:#1e1e1e; color:#9fe6b6; padding:14px 16px; border-radius:10px;
+    overflow-x:auto; margin:10px 0; font-family:'Consolas', ui-monospace, monospace;
+    font-size:.9rem; border:1px solid #444;
+  }
+  pre code { background:none; padding:0; }
+  .tip {
+    margin-top:14px; padding:11px 14px; background:#2b2b2b; border-radius:8px;
+    color:var(--muted); font-size:.9rem; border:1px dashed #555;
+  }
+  .file { color:var(--orange); font-weight:600; }
+  .tree { color:var(--muted); }
+  footer { color:var(--muted); font-size:.82rem; text-align:center; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎛️ <span class="knob">Knob Timer</span> — Maintenance Guide</h1>
+  <p class="sub">How to rebuild the app after a code change, and how to set the alarm sound.</p>
+
+  <section>
+    <h2>🔨 Rebuild after a code change</h2>
+    <ol>
+      <li>Edit <code>knob_timer.py</code> and save your changes.</li>
+      <li>Open <strong>PowerShell</strong> in the project folder
+          (<code>C:\Users\Naseem\Projects\knob-timer</code>).</li>
+      <li>Run the one build command:</li>
+    </ol>
+    <pre><code>.\venv\Scripts\pyinstaller.exe --onefile --windowed --name KnobTimer --noconfirm knob_timer.py</code></pre>
+    <ol start="4">
+      <li>Grab the fresh exe from <span class="file">dist\KnobTimer.exe</span> — that's the file you ship.</li>
+    </ol>
+    <div class="tip">
+      💡 The build creates a temporary <code>build\</code> folder and a
+      <code>KnobTimer.spec</code> file. You can delete both — only
+      <span class="file">dist\KnobTimer.exe</span> matters.
+    </div>
+  </section>
+
+  <section class="alarm">
+    <h2>🔔 Set the alarm sound</h2>
+    <ol>
+      <li>Get an audio file — <code>.mp3</code>, <code>.wav</code>, or <code>.ogg</code>.</li>
+      <li>Put it in the <strong>same folder as</strong> <span class="file">KnobTimer.exe</span>.</li>
+      <li>Name it <span class="file">alarm.mp3</span> (the default the app looks for), <em>or</em>
+          open <span class="file">config.json</span> and point
+          <code>"audio_file_path"</code> at your file.</li>
+      <li>You can also just press <code>S</code> in the app and pick the file there.</li>
+    </ol>
+
+    <p style="margin:16px 0 6px;">The folder you ship should look like this:</p>
+    <pre class="tree">📁 Knob Timer
+ ├── <span class="file">KnobTimer.exe</span>     ← the app
+ ├── <span class="file">alarm.mp3</span>         ← your sound (next to the exe)
+ └── config.json        ← created automatically on first run</pre>
+
+    <div class="tip">
+      💡 No sound file present? The app still runs and falls back to a system beep —
+      nothing breaks.
+    </div>
+  </section>
+
+  <footer>Knob Timer · rotate = ±1 min · press = start/pause · hold = reset</footer>
+</div>
+</body>
+</html>
