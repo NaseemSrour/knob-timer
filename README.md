@@ -14,8 +14,6 @@
 
 ---
 
-## The pitch
-
 You bought a cheap USB knob to nudge the volume up and down. Habibi, that knob is
 overqualified. **Knob Timer** gives it a serious job: **twist** for minutes,
 **press** to start, **hold** to reset. A giant clock takes over the screen so you
