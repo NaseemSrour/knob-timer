@@ -21,31 +21,55 @@ Switch to another app and the knob is a normal volume control again.
 
 ---
 
-## 🚀 Option A — Give them a single `.exe` (recommended)
+## 🚀 Option A — Give them the built folder (recommended)
 
-Your friend needs **no Python, no install**. You build once, hand them one file.
+Your friend needs **no Python, no install**. You build once, hand them one folder.
 
 **On your machine (in the venv):**
 
 ```powershell
 pip install pyinstaller
-pyinstaller --onefile --windowed --name KnobTimer knob_timer.py
+.\venv\Scripts\pyinstaller.exe KnobTimer.spec --noconfirm
 ```
 
-The exe lands in **`dist\KnobTimer.exe`**. Ship that folder:
+The app lands in **`dist\KnobTimer\`** as a one-folder bundle. Ship the **whole
+folder** (zip it), which looks like:
 
 ```
-KnobTimer.exe        ← the app
-alarm.mp3            ← optional: your alarm sound (any .mp3/.wav)
+📁 KnobTimer
+ ├── KnobTimer.exe      ← the app (double-click this)
+ ├── _internal\         ← its runtime — must stay next to the exe
+ └── alarm.mp3          ← optional: your alarm sound (any .mp3/.wav)
 ```
 
-`config.json` is created automatically next to the exe on first run.
+`config.json` is created automatically inside that folder on first run.
 
-**On their machine:** double-click `KnobTimer.exe`. That's it.
+**On their machine:**
 
-> 💡 If Windows SmartScreen warns ("unknown publisher"), click **More info → Run
-> anyway** — expected for unsigned apps. Some antivirus may flag the keyboard
-> hook; it's a false positive (the hook is what suppresses the volume keys).
+1. **Unblock the zip first** — right-click the copied `.zip` → **Properties** →
+   tick **☑ Unblock** (bottom) → **Apply**. *Then* extract.
+2. Open the folder, double-click `KnobTimer.exe`. That's it.
+
+> ⚠️ **Don't skip the Unblock step.** A zip copied from another PC tags every
+> extracted file with a "came from another computer" mark. Skip it and Windows
+> **Smart App Control** blocks the app — especially when launched via a desktop
+> shortcut. Already extracted without unblocking? Run this once in PowerShell:
+> ```powershell
+> Get-ChildItem "C:\path\to\KnobTimer" -Recurse | Unblock-File
+> ```
+> Making a desktop shortcut? Set its **"Start in"** field to the `KnobTimer`
+> folder so the exe always finds `_internal\`.
+
+> 🛡️ **Why a folder and not `--onefile`?** A one-folder build with **UPX off**
+> (defined in [`KnobTimer.spec`](KnobTimer.spec)) is what clears Windows **Smart App
+> Control** — the stricter successor to SmartScreen that **can't be waved through per
+> app**. A `--onefile` + UPX build self-extracts to temp and gets blocked. This is the
+> same recipe the tui-inventory build used to run on the same machine.
+>
+> 💡 Plain SmartScreen may still warn ("unknown publisher") → **More info → Run
+> anyway**. Some antivirus may flag the keyboard hook — false positive (the hook is
+> what suppresses the volume keys). If Smart App Control *still* blocks it, the only
+> hard fix is code-signing the exe (e.g. Azure Trusted Signing).
 
 ---
 

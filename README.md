@@ -37,7 +37,8 @@ Twist it, slap it, watch the numbers, get things done. Khalas.
   It knows when it's a guest.
 - 🎨 **3a zaw2ak:** every color, the alarm sound, and the default minutes live in a
   friendly `config.json` — or just press `S` in the app.
-- 📦 **Ships as a single `.exe`.** Your friend needs zero Python. Ma fi ta32eed.
+- 📦 **Ships as one folder, zero Python.** Hand your friend the `KnobTimer`
+  folder and they double-click. Ma fi ta32eed.
 
 ## Controls
 
@@ -54,8 +55,9 @@ Twist it, slap it, watch the numbers, get things done. Khalas.
 
 ## Quick start
 
-**Just want to use it →** grab `KnobTimer.exe`, double-click, w bass.
-(Drop an `alarm.mp3` next to it first if you want a custom sound.)
+**Just want to use it →** grab the whole `KnobTimer` folder, open it, and
+double-click `KnobTimer.exe`. W bass. (Drop an `alarm.mp3` next to the exe
+first if you want a custom sound.)
 
 **Running from source →**
 
@@ -70,9 +72,13 @@ python knob_timer.py
 
 ```powershell
 pip install pyinstaller
-.\venv\Scripts\pyinstaller.exe --onefile --windowed --name KnobTimer --noconfirm knob_timer.py
-# → dist\KnobTimer.exe
+.\venv\Scripts\pyinstaller.exe KnobTimer.spec --noconfirm
+# → dist\KnobTimer\  (ship the whole folder, not just the exe)
 ```
+
+> 🛡️ The build uses [`KnobTimer.spec`](KnobTimer.spec) on purpose: a **one-folder**
+> bundle with **UPX off**. That's the recipe that gets past Windows **Smart App
+> Control** — `--onefile` + UPX is exactly what it blocks. Don't go back to onefile.
 
 See [`REBUILD.html`](REBUILD.html) for the illustrated version and
 [`SHIP.md`](SHIP.md) for handing it to a friend.
